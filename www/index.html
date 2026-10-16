@@ -1,1 +1,48 @@
-<h1>Fazal App is Live!</h1><p>Ye meri website hai</p>
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FazalAI</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:system-ui}
+body{background:#212121;color:#fff;display:flex;flex-direction:column;height:100vh}
+.header{padding:15px;text-align:center;border-bottom:1px solid #333;font-weight:bold;font-size:18px}
+#chat{flex:1;overflow-y:auto;padding:15px;display:flex;flex-direction:column}
+.msg{margin:10px 0;padding:12px 15px;border-radius:15px;max-width:85%;line-height:1.5}
+.user{background:#2f2f2f;align-self:flex-end;margin-left:auto}
+.bot{background:#444654}
+.input-box{display:flex;padding:10px;background:#2f2f2f;gap:10px}
+input{flex:1;padding:12px;border-radius:20px;border:none;background:#40414f;color:#fff;outline:none}
+button{padding:12px 20px;border-radius:20px;border:none;background:#fff;color:#000;font-weight:bold}
+</style>
+</head>
+<body>
+<div class="header">FazalAI 🤖</div>
+<div id="chat">
+<div class="msg bot">Assalamu Alaikum! Main FazalAI hun, ChatGPT jesa! Koi bhi sawal poocho?</div>
+</div>
+<div class="input-box">
+<input id="inp" placeholder="Message FazalAI...">
+<button onclick="send()">↑</button>
+</div>
+<script>
+function send(){
+ let i=document.getElementById('inp');
+ let t=i.value.trim();
+ if(!t) return;
+ let c=document.getElementById('chat');
+ c.innerHTML+=`<div class="msg user">${t}</div>`;
+ i.value='';
+ setTimeout(()=>{
+   let reply = "Ye sawal bohat acha hai! '"+t+"' ke bare me soch raha hun... Abhi main demo mode me hun.";
+   if(t.toLowerCase().includes("salam")) reply="Walaikum Assalam Fazal bhai! 😊";
+   if(t.toLowerCase().includes("kaise ho")) reply="Main bilkul fit hun! Aap sunao?";
+   c.innerHTML+=`<div class="msg bot">${reply}</div>`;
+   c.scrollTop=c.scrollHeight;
+ },600);
+ c.scrollTop=c.scrollHeight;
+}
+document.getElementById('inp').addEventListener('keydown',e=>{if(e.key==='Enter')send()});
+</script>
+</body>
+</html>
