@@ -5,9 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>FazalAI - Super App</title>
 <script src="https://cdn.tailwindcss.com"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-<style>body{font-family:'Poppins', sans-serif;}</style>
+<style>body{font-family:'Poppins',sans-serif;}</style>
 </head>
 <body class="bg-black text-white">
 <!-- HEADER -->
@@ -18,11 +16,11 @@
 
 <!-- TOOLS GRID -->
 <div id="home" class="p-4 grid grid-cols-2 gap-4">
-<div onclick="openPage('chat')" class="bg-zinc-900 p-4 rounded-2xl text-center"><div class="text-3xl">🤖</div><h3>AI Chat</h3></div>
-<div onclick="openPage('image')" class="bg-zinc-900 p-4 rounded-2xl text-center"><div class="text-3xl">🎨</div><h3>Image Gen</h3></div>
+<div onclick="openPage('chat')" class="bg-zinc-900 p-4 rounded-2xl text-center"> <div class="text-3xl">💬</div><h3>AI Chat</h3></div>
+<div onclick="openPage('image')" class="bg-zinc-900 p-4 rounded-2xl text-center"><div class="text-3xl">🎨</div><h3>Image AI</h3></div>
 <div onclick="openPage('qr')" class="bg-zinc-900 p-4 rounded-2xl text-center"><div class="text-3xl">🔳</div><h3>QR Maker</h3></div>
-<div onclick="openPage('voice')" class="bg-zinc-900 p-4 rounded-2xl text-center"><div class="text-3xl">🎤</div><h3>Voice to Text</h3></div>
-<div onclick="openPage('pdf')" class="bg-zinc-900 p-4 rounded-2xl text-center"><div class="text-3xl">📄</div><h3>PDF Tool</h3></div>
+<div onclick="openPage('voice')" class="bg-zinc-900 p-4 rounded-2xl text-center"><div class="text-3xl">🎤</div><h3>Voice To Text</h3></div>
+<div onclick="openPage('pdf')" class="bg-zinc-900 p-4 rounded-2xl text-center"><div class="text-3xl">📄</div><h3>Text to PDF</h3></div>
 <div onclick="openPage('calc')" class="bg-zinc-900 p-4 rounded-2xl text-center"><div class="text-3xl">🧮</div><h3>Calculator</h3></div>
 </div>
 
@@ -30,37 +28,58 @@
 <div id="content" class="p-4 hidden"></div>
 
 <script>
+// ====== YAHAN APNI API KEY LAGAO ====
+const GEMINI_API_KEY = "AQ.Ab8RN6IlzgICZ2rEhye3Fr-NrGcfEamC5uCAVrkxzXmvl1SZAM";
 const SYSTEM_PROMPT = "Tumhara naam FazalAI hai. Tumhe Fazal ne banaya hai. Hamesha Urdu me jawab do.";
+
 function openPage(type){
 document.getElementById('home').classList.add('hidden');
 let c = document.getElementById('content');
 c.classList.remove('hidden');
+
 if(type=='chat'){
-c.innerHTML=`<button onclick="goHome()" class="mb-4">⬅ Back</button><h2 class='text-xl font-bold mb-2'>FazalAI Chat</h2><div id='chatBox' class='h-64 overflow-y-auto bg-zinc-900 p-2 rounded mb-2'></div><div class='flex gap-2'><input id='msg' class='flex-1 p-2 rounded bg-zinc-800' placeholder='Sawal likho...'><button onclick='sendMsg()' class='bg-purple-600 px-4 py-2 rounded'>Send</button></div>`;
+c.innerHTML=`<button onclick="goHome()" class="mb-4">← Back</button><h2 class="text-xl font-bold mb-2">FazalAI Chat - Asal ChatGPT</h2>
+<div id="chatBox" class="bg-zinc-900 h-96 overflow-y-auto p-3 rounded-xl mb-3 flex flex-col gap-2"><div class="bg-zinc-800 p-2 rounded-lg">Salam! FazalAI hazir hai, koi bhi sawal pucho!</div></div>
+<div class="flex gap-2"><input id="msg" class="flex-1 p-3 rounded-full bg-zinc-800 text-white" placeholder="Message..."><button onclick="sendMsg()" class="bg-purple-600 px-5 rounded-full">↑</button></div>`;
 }
-if(type=='image'){
-c.innerHTML=`<button onclick="goHome()" class="mb-4">⬅ Back</button><h2 class='text-xl font-bold mb-2'>AI Image Generator</h2><input id='imgPrompt' class='w-full p-2 rounded bg-zinc-800 mb-2' placeholder='A cat in space...'><button onclick='genImg()' class='w-full bg-purple-600 py-2 rounded'>Generate</button><div id='imgResult' class='mt-4'></div>`;
+if(type=='image'){ c.innerHTML=`<button onclick="goHome()" class="mb-4">← Back</button><h2 class="text-xl font-bold">AI Image Generator</h2><p class="opacity-60 mt-2">Ye feature abhi banana hai, filhal Chat use karo.</p>`; }
+if(type=='qr'){ c.innerHTML=`<button onclick="goHome()" class="mb-4">← Back</button><h2 class="text-xl font-bold">QR Maker</h2><input id="qrInput" class="w-full mt-3 p-3 bg-zinc-800 rounded-xl" placeholder="Text likho"><button onclick="makeQR()" class="w-full mt-3 bg-purple-600 p-3 rounded-xl">Generate QR</button><div id="qrResult" class="mt-4 text-center"></div>`; }
+if(type=='voice'){ c.innerHTML=`<button onclick="goHome()" class="mb-4">← Back</button><h2 class="text-xl font-bold">Voice to Text</h2><button onclick="startVoice()" class="w-full mt-4 bg-purple-600 p-4 rounded-xl">🎤 Bolna Shuru Karo</button><div id="voiceResult" class="mt-4 bg-zinc-800 p-3 rounded-xl"></div>`; }
+if(type=='pdf'){ c.innerHTML=`<button onclick="goHome()" class="mb-4">← Back</button><h2 class="text-xl font-bold">Text to PDF</h2><textarea id="pdfText" class="w-full mt-3 h-40 bg-zinc-800 p-3 rounded-xl"></textarea><button onclick="makePDF()" class="w-full mt-3 bg-purple-600 p-3 rounded-xl">Make PDF</button>`; }
+if(type=='calc'){ c.innerHTML=`<button onclick="goHome()" class="mb-4">← Back</button><h2 class="text-xl font-bold">Calculator</h2><input id="calcIn" class="w-full mt-3 p-4 bg-zinc-800 rounded-xl text-xl"><button onclick="doCalc()" class="w-full mt-3 bg-purple-600 p-3 rounded-xl">= Calculate</button><div id="calcOut" class="mt-4 text-2xl font-bold text-center"></div>`; }
 }
-if(type=='qr'){
-c.innerHTML=`<button onclick="goHome()" class="mb-4">⬅ Back</button><h2 class='text-xl font-bold mb-2'>QR Maker</h2><input id='qrText' class='w-full p-2 rounded bg-zinc-800 mb-2' placeholder='Text ya Link likho'><button onclick='makeQR()' class='w-full bg-purple-600 py-2 rounded'>Make QR</button><div id='qrcode' class='mt-4 flex justify-center bg-white p-2 rounded'></div>`;
-}
-if(type=='voice'){
-c.innerHTML=`<button onclick="goHome()" class="mb-4">⬅ Back</button><h2 class='text-xl font-bold mb-2'>Voice to Text</h2><button onclick='startVoice()' class='w-full bg-red-600 py-3 rounded'>🎤 Bolna Shuru Karo</button><p id='voiceResult' class='mt-4 bg-zinc-900 p-3 rounded'></p>`;
-}
-if(type=='pdf'){
-c.innerHTML=`<button onclick="goHome()" class="mb-4">⬅ Back</button><h2 class='text-xl font-bold mb-2'>Text to PDF</h2><textarea id='pdfText' class='w-full p-2 rounded bg-zinc-800 h-32' placeholder='Yahan text likho PDF ke liye'></textarea><button onclick='makePDF()' class='w-full bg-purple-600 py-2 rounded mt-2'>Download PDF</button>`;
-}
-if(type=='calc'){
-c.innerHTML=`<button onclick="goHome()" class="mb-4">⬅ Back</button><h2 class='text-xl font-bold mb-2'>Calculator</h2><input id='calcIn' class='w-full p-3 rounded bg-zinc-800 text-xl' placeholder='12*5+10'><button onclick='doCalc()' class='w-full bg-purple-600 py-2 rounded mt-2'>= Calculate</button><p id='calcOut' class='text-2xl mt-4 text-center'></p>`;
-}
-}
+
 function goHome(){document.getElementById('content').classList.add('hidden');document.getElementById('home').classList.remove('hidden');}
-function sendMsg(){let m=document.getElementById('msg').value;if(!m) return;let box=document.getElementById('chatBox');box.innerHTML+=`<p class='mb-2'><b>You:</b> ${m}</p><p class='mb-4 text-purple-300'><b>FazalAI:</b> ${SYSTEM_PROMPT} - Aapne kaha "${m}", main FazalAI hu, aapki madad ke liye hazir hu!</p>`;document.getElementById('msg').value='';}
-function genImg(){let p=document.getElementById('imgPrompt').value;document.getElementById('imgResult').innerHTML=`<img src='https://image.pollinations.ai/prompt/${encodeURIComponent(p)}' class='w-full rounded mt-2'>`;}
-function makeQR(){document.getElementById('qrcode').innerHTML='';new QRCode(document.getElementById('qrcode'), document.getElementById('qrText').value);}
-function startVoice(){let rec=new (window.SpeechRecognition||window.webkitSpeechRecognition)();rec.lang='ur-PK';rec.onresult=e=>{document.getElementById('voiceResult').innerText=e.results[0][0].transcript};rec.start();}
-function makePDF(){let t=document.getElementById('pdfText').value;let w=window.open();w.document.write(`<pre>${t}</pre>`);w.print();}
-function doCalc(){try{document.getElementById('calcOut').innerText='= '+eval(document.getElementById('calcIn').value)}catch{document.getElementById('calcOut').innerText='Ghalat hisaab!';}}
+
+// --- ASAL CHATGPT WALA FUNCTION ---
+async function sendMsg(){
+let m=document.getElementById('msg').value; if(!m) return;
+let box=document.getElementById('chatBox');
+box.innerHTML+=`<div class="self-end bg-purple-600 p-2 rounded-xl max-w-[80%]">${m}</div>`;
+document.getElementById('msg').value='';
+let loadingId = Date.now();
+box.innerHTML+=`<div id="${loadingId}" class="bg-zinc-800 p-2 rounded-xl max-w-[80%]">Soch raha hun...</div>`;
+box.scrollTop = box.scrollHeight;
+
+try{
+let res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`,{
+method:'POST', headers:{'Content-Type':'application/json'},
+body:JSON.stringify({contents:[{parts:[{text: SYSTEM_PROMPT + " Sawal: " + m}]}]})
+});
+let data = await res.json();
+let reply = data.candidates[0].content.parts[0].text;
+document.getElementById(loadingId).innerText = reply;
+}catch(e){
+document.getElementById(loadingId).innerText = "Error: API Key sahi lagao ya Internet check karo!";
+console.log(e);
+}
+box.scrollTop = box.scrollHeight;
+}
+
+function makeQR(){ let t=document.getElementById('qrInput').value; document.getElementById('qrResult').innerHTML=`<img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(t)}" class="mx-auto rounded-xl"/>`; }
+function startVoice(){ let rec=new(window.SpeechRecognition||window.webkitSpeechRecognition)(); rec.lang='ur-PK'; rec.onresult=(e)=>{document.getElementById('voiceResult').innerText=e.results[0][0].transcript}; rec.start(); }
+function makePDF(){ let t=document.getElementById('pdfText').value; let w=window.open(); w.document.write(`<pre>${t}</pre>`); w.print(); }
+function doCalc(){ try{document.getElementById('calcOut').innerText='= '+eval(document.getElementById('calcIn').value)}catch(e){document.getElementById('calcOut').innerText='Error'} }
 </script>
 </body>
 </html>
