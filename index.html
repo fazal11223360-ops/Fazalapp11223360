@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+
 <html lang="ur">
 <head>
 <meta charset="UTF-8">
@@ -59,27 +59,7 @@ box.innerHTML+=`<div class="self-end bg-purple-600 p-2 rounded-xl max-w-[80%]">$
 document.getElementById('msg').value='';
 let loadingId = Date.now();
 box.innerHTML+=`<div id="${loadingId}" class="bg-zinc-800 p-2 rounded-xl max-w-[80%]">Soch raha hun...</div>`;
-box.scrollTop = box.scrollHeight;
-
-try{
-let res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`,{
-method:'POST', headers:{'Content-Type':'application/json'},
-body:JSON.stringify({contents:[{parts:[{text: SYSTEM_PROMPT + " Sawal: " + m}]}]})
-});
-let data = await res.json();
-let reply = data.candidates[0].content.parts[0].text;
-document.getElementById(loadingId).innerText = reply;
-}catch(e){
-document.getElementById(loadingId).innerText = "Error: API Key sahi lagao ya Internet check karo!";
-console.log(e);
-}
-box.scrollTop = box.scrollHeight;
-}
-
+box.
 function makeQR(){ let t=document.getElementById('qrInput').value; document.getElementById('qrResult').innerHTML=`<img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(t)}" class="mx-auto rounded-xl"/>`; }
 function startVoice(){ let rec=new(window.SpeechRecognition||window.webkitSpeechRecognition)(); rec.lang='ur-PK'; rec.onresult=(e)=>{document.getElementById('voiceResult').innerText=e.results[0][0].transcript}; rec.start(); }
-function makePDF(){ let t=document.getElementById('pdfText').value; let w=window.open(); w.document.write(`<pre>${t}</pre>`); w.print(); }
-function doCalc(){ try{document.getElementById('calcOut').innerText='= '+eval(document.getElementById('calcIn').value)}catch(e){document.getElementById('calcOut').innerText='Error'} }
-</script>
-</body>
-</html>
+function makePDF(){ le
