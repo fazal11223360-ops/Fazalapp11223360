@@ -1,43 +1,87 @@
-<!DOCTYPE html><html lang="ur"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>FazalAI Super App</title><script src="https://cdn.tailwindcss.com"></script></head><body class="bg-black text-white min-h-screen">
+<!DOCTYPE html>
+<html lang="ur">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fazal Super App</title>
+<script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-black text-white min-h-screen">
 <div class="p-4 text-center bg-gradient-to-r from-purple-600 via-blue-600 to-green-600 sticky top-0 z-10">
-<h1 class="text-2xl font-bold">FazalAI Super App</h1><p class="text-xs opacity-90">Made by Fazal - AI + News + Call</p><p id="todayDate" class="text-[11px] mt-1 bg-white/20 inline-block px-3 py-1 rounded-full"></p></div>
+<h1 class="text-2xl font-bold">FazalAI Super App</h1>
+<p class="text-xs opacity-90">Made by Fazal - AI + News + Calculator</p>
+</div>
+
 <div id="home" class="p-3">
-<div class="bg-gradient-to-r from-red-600 to-orange-600 p-3 rounded-2xl mb-3 flex justify-between items-center" onclick="openPage('news')">
-<div><h3 class="font-bold">🔴 LIVE Taza Khabar</h3><p class="text-xs opacity-80">Pakistan + Duniya - Aaj ki khabrein</p></div><span class="bg-white text-red-600 text-xs px-3 py-1 rounded-full font-bold">LIVE</span></div>
+<div class="bg-gradient-to-r from-red-600 to-orange-600 p-3 rounded-2xl mb-3 flex justify-between items-center">
+<h3 class="font-bold">🔴 LIVE Taza Khabar</h3>
+<span class="text-xs opacity-80">Pakistan + Duniya - Aaj ki khabrein</span>
+</div>
+
 <div class="grid grid-cols-2 gap-3">
-<div onclick="openPage('chat')" class="bg-zinc-900 p-4 rounded-2xl text-center border border-zinc-800"><div class="text-3xl">💬</div><h3 class="font-bold mt-1">AI Chat</h3></div>
-<div onclick="openPage('news')" class="bg-zinc-900 p-4 rounded-2xl text-center border border-zinc-800"><div class="text-3xl">📰</div><h3 class="font-bold mt-1">Taza News</h3></div>
-<div onclick="openPage('whatsapp')" class="bg-zinc-900 p-4 rounded-2xl text-center border border-zinc-800 ring-2 ring-green-600"><div class="text-3xl">📞</div><h3 class="font-bold mt-1">Call / WhatsApp</h3><p class="text-[10px] text-green-400">WhatsApp jaisa</p></div>
-<div onclick="openPage('qr')" class="bg-zinc-900 p-4 rounded-2xl text-center border border-zinc-800"><div class="text-3xl">📱</div><h3>QR Maker</h3></div>
-<div onclick="openPage('voice')" class="bg-zinc-900 p-4 rounded-2xl text-center border border-zinc-800"><div class="text-3xl">🎤</div><h3>Voice</h3></div>
-<div onclick="openPage('calc')" class="bg-zinc-900 p-4 rounded-2xl text-center border border-zinc-800"><div class="text-3xl">🧮</div><h3>Calculator</h3></div>
-</div></div>
+<div onclick="openPage('chat')" class="bg-zinc-900 p-4 rounded-2xl text-center border border-zinc-800 active:scale-95 transition">
+<div class="text-3xl">🤖</div><div class="font-bold mt-1">AI Chat</div><div class="text-xs text-zinc-400">Fazal AI se baat karo</div>
+</div>
+<div onclick="openPage('news')" class="bg-zinc-900 p-4 rounded-2xl text-center border border-zinc-800 active:scale-95 transition">
+<div class="text-3xl">📰</div><div class="font-bold mt-1">News</div><div class="text-xs text-zinc-400">Taza Khabrein</div>
+</div>
+<div onclick="openPage('whatsapp')" class="bg-zinc-900 p-4 rounded-2xl text-center border border-zinc-800 ring-2 ring-green-600 active:scale-95 transition">
+<div class="text-3xl">💬</div><div class="font-bold mt-1">WhatsApp</div><div class="text-xs text-zinc-400">Direct Message</div>
+</div>
+<div onclick="openPage('qr')" class="bg-zinc-900 p-4 rounded-2xl text-center border border-zinc-800 active:scale-95 transition">
+<div class="text-3xl">🔳</div><div class="font-bold mt-1">QR Maker</div><div class="text-xs text-zinc-400">QR Banao</div>
+</div>
+<div onclick="openPage('voice')" class="bg-zinc-900 p-4 rounded-2xl text-center border border-zinc-800 active:scale-95 transition">
+<div class="text-3xl">🎙️</div><div class="font-bold mt-1">Voice</div><div class="text-xs text-zinc-400">Bol ke likho</div>
+</div>
+<div onclick="openPage('calc')" class="bg-zinc-900 p-4 rounded-2xl text-center border border-zinc-800 active:scale-95 transition">
+<div class="text-3xl">🧮</div><div class="font-bold mt-1">Calculator</div><div class="text-xs text-zinc-400">Hisab Kitab</div>
+</div>
+</div>
+</div>
+
 <div id="content" class="p-3 hidden"></div>
+
 <script>
-const GEMINI_API_KEY="AQ.Ab8RN6IizgICZ2rEhye3Fr-NrGcfEamC5uCAVrkxzXmv1lSZAM";
+const GEMINI_API_KEY="";AQ.Ab8RN6LBHwvQeo7UBqYSRJgVq-4REdmQEIHtokyHamWcyDRNKQ // <-- 
 const SYSTEM_PROMPT="Tumhara naam FazalAI hai. Tumhe Fazal ne banaya hai. Hamesha Urdu me jawab do.";
+
 document.getElementById('todayDate').innerText=new Date().toLocaleDateString('ur-PK',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
-function openPage(t){document.getElementById('home').classList.add('hidden');let c=document.getElementById('content');c.classList.remove('hidden');
-if(t=='chat'){c.innerHTML=`<button onclick="goHome()" class="mb-3 bg-zinc-800 px-4 py-2 rounded-full">← Back</button><h2 class="text-xl font-bold mb-2">💬 FazalAI Chat</h2><div id="chatBox" class="bg-zinc-900 h-[60vh] overflow-y-auto p-3 rounded-2xl mb-3 flex flex-col gap-2 border border-zinc-800"><div class="bg-zinc-800 p-3 rounded-2xl max-w-[85%] text-sm">Salam! Main FazalAI hun. Aaj ki khabar ya koi sawal pucho!</div></div><div class="flex gap-2"><input id="msg" class="flex-1 p-3 rounded-full bg-zinc-800 border border-zinc-700 text-sm" placeholder="Message likho..."><button onclick="sendMsg()" class="bg-purple-600 px-6 rounded-full font-bold">Send</button></div>`}
-if(t=='news'){c.innerHTML=`<button onclick="goHome()" class="mb-3 bg-zinc-800 px-4 py-2 rounded-full">← Back</button><h2 class="text-xl font-bold">📰 Aaj Ki Taza Khabrein</h2><div class="flex gap-2 mt-3"><button id="btnPak" onclick="loadNews('pak')" class="flex-1 bg-green-600 p-2 rounded-full font-bold text-sm">🇵🇰 Pakistan</button><button id="btnWorld" onclick="loadNews('world')" class="flex-1 bg-zinc-800 p-2 rounded-full text-sm">🌍 Duniya</button><button id="btnAI" onclick="loadNews('ai')" class="flex-1 bg-zinc-800 p-2 rounded-full text-sm">🤖 AI</button></div><div id="newsBox" class="mt-4 flex flex-col gap-3"><div class="text-center p-10 text-zinc-400">Khabrein load ho rahi hain...</div></div>`;loadNews('pak')}
-if(t=='whatsapp'){c.innerHTML=`<button onclick="goHome()" class="mb-3 bg-zinc-800 px-4 py-2 rounded-full">← Back</button><h2 class="text-xl font-bold">📞 Call / WhatsApp - WhatsApp Jaisa</h2><div class="bg-zinc-900 p-4 rounded-2xl mt-3 border border-zinc-800"><label class="text-xs text-zinc-400">Number likho (0 ke baghair, 92 ke sath)</label><input id="waNumber" class="w-full p-3 mt-1 rounded-xl bg-zinc-800 border border-zinc-700" placeholder="923001234567"><label class="text-xs text-zinc-400 mt-3 block">Message (WhatsApp ke liye)</label><textarea id="waMsg" class="w-full p-3 mt-1 rounded-xl bg-zinc-800 border border-zinc-700 h-20" placeholder="Assalam o Alaikum..."></textarea><button onclick="openWA()" class="w-full mt-3 bg-green-600 p-4 rounded-xl font-bold text-base">💬 WhatsApp Par Bhejo - WhatsApp Khulega</button><button onclick="makeCall()" class="w-full mt-2 bg-blue-600 p-4 rounded-xl font-bold text-base">📞 Direct Call Karo - Phone Dialer</button><div class="mt-4 bg-zinc-800 p-3 rounded-xl"><p class="text-xs font-bold">Tareeka:</p><p class="text-[11px] text-zinc-400 mt-1">1. 03001234567 ko 923001234567 likho</p><p class="text-[11px] text-zinc-400">2. WhatsApp button se seedha WhatsApp chat khulega</p><p class="text-[11px] text-zinc-400">3. Call button se mobile ka dialer khulega</p></div></div>`}
-if(t=='qr'){c.innerHTML=`<button onclick="goHome()" class="mb-3 bg-zinc-800 px-4 py-2 rounded-full">← Back</button><h2 class="text-xl font-bold">📱 QR Maker</h2><input id="qrInput" class="w-full p-3 mt-3 rounded-xl bg-zinc-800 border border-zinc-700" placeholder="Link ya Text likho"><button onclick="makeQR()" class="w-full mt-2 bg-purple-600 p-3 rounded-xl font-bold">Generate QR</button><div id="qrResult" class="mt-4 text-center"></div>`}
-if(t=='voice'){c.innerHTML=`<button onclick="goHome()" class="mb-3 bg-zinc-800 px-4 py-2 rounded-full">← Back</button><h2 class="text-xl font-bold">🎤 Voice to Text</h2><button onclick="startVoice()" class="w-full mt-3 bg-purple-600 p-4 rounded-xl font-bold">🎤 Bolna Shuru Karo</button><p id="voiceResult" class="mt-3 bg-zinc-900 p-4 rounded-xl border border-zinc-800 min-h-[80px]">Yahan aapki awaz likhi ayegi...</p>`}
-if(t=='calc'){c.innerHTML=`<button onclick="goHome()" class="mb-3 bg-zinc-800 px-4 py-2 rounded-full">← Back</button><h2 class="text-xl font-bold">🧮 Calculator</h2><input id="calcIn" class="w-full p-3 mt-3 rounded-xl bg-zinc-800 border border-zinc-700 text-xl" placeholder="1500*12/100"><div id="calcOut" class="mt-3 text-3xl font-bold bg-zinc-900 p-4 rounded-xl border border-zinc-800">0</div><button onclick="doCalc()" class="w-full mt-2 bg-purple-600 p-3 rounded-xl font-bold">= Calculate</button>`}
+
+function openPage(t){
+ document.getElementById('home').classList.add('hidden'); document.getElementById('content').classList.remove('hidden'); let c=document.getElementById('content');
+ if(t=='chat'){c.innerHTML=`<button onclick="goHome()" class="mb-3 bg-zinc-800 px-4 py-2 rounded-full">← Back</button><h2 class="text-xl font-bold mb-3">FazalAI Chat</h2><div id="chatBox" class="h-96 overflow-y-auto bg-zinc-900 rounded-xl p-3 mb-3"></div><div class="flex gap-2"><input id="msg" class="flex-1 bg-zinc-800 p-3 rounded-full outline-none" placeholder="Kuch likho..."><button onclick="sendMsg()" class="bg-blue-600 px-5 py-3 rounded-full">Send</button></div>`}
+ if(t=='news'){c.innerHTML=`<button onclick="goHome()" class="mb-3 bg-zinc-800 px-4 py-2 rounded-full">← Back</button><button onclick="loadNews()" class="mb-3 bg-zinc-800 px-4 py-2 rounded-full ml-2">Refresh News</button><div id="newsBox" class="space-y-3"></div>`; loadNews();}
+ if(t=='whatsapp'){c.innerHTML=`<button onclick="goHome()" class="mb-3 bg-zinc-800 px-4 py-2 rounded-full">← Back</button><h2 class="text-xl font-bold mb-3">WhatsApp Direct</h2><input id="waNumber" placeholder="Number likho 923001234567" class="w-full bg-zinc-800 p-3 rounded-xl mb-3"><textarea id="waMsg" placeholder="Message" class="w-full bg-zinc-800 p-3 rounded-xl mb-3"></textarea><button onclick="openWA()" class="w-full bg-green-600 p-3 rounded-xl">Open WhatsApp</button>`}
+ if(t=='qr'){c.innerHTML=`<button onclick="goHome()" class="mb-3 bg-zinc-800 px-4 py-2 rounded-full">← Back</button><h2 class="text-xl font-bold mb-3">QR Generator</h2><input id="qrInput" class="w-full bg-zinc-800 p-3 rounded-xl mb-3" placeholder="Text likho"><button onclick="makeQR()" class="w-full bg-blue-600 p-3 rounded-xl mb-3">Generate QR</button><div id="qrBox" class="text-center"></div>`}
+ if(t=='voice'){c.innerHTML=`<button onclick="goHome()" class="mb-3 bg-zinc-800 px-4 py-2 rounded-full">← Back</button><h2 class="text-xl font-bold mb-3">Voice to Text</h2><button onclick="startVoice()" class="w-full bg-red-600 p-4 rounded-xl">🎙️ Bolna Shuru Karo</button><div id="voiceText" class="mt-4 bg-zinc-900 p-3 rounded-xl min-h-24"></div>`}
+ if(t=='calc'){c.innerHTML=`<button onclick="goHome()" class="mb-3 bg-zinc-800 px-4 py-2 rounded-full">← Back</button><h2 class="text-xl font-bold mb-3">Calculator</h2><input id="calcIn" class="w-full bg-zinc-800 p-4 rounded-xl mb-3 text-right text-xl"><div class="grid grid-cols-4 gap-2"><button onclick="doCalc('7')" class="bg-zinc-800 p-4 rounded-xl">7</button><button onclick="doCalc('8')" class="bg-zinc-800 p-4 rounded-xl">8</button><button onclick="doCalc('9')" class="bg-zinc-800 p-4 rounded-xl">9</button><button onclick="doCalc('/')" class="bg-orange-600 p-4 rounded-xl">/</button><button onclick="doCalc('4')" class="bg-zinc-800 p-4 rounded-xl">4</button><button onclick="doCalc('5')" class="bg-zinc-800 p-4 rounded-xl">5</button><button onclick="doCalc('6')" class="bg-zinc-800 p-4 rounded-xl">6</button><button onclick="doCalc('*')" class="bg-orange-600 p-4 rounded-xl">*</button><button onclick="doCalc('1')" class="bg-zinc-800 p-4 rounded-xl">1</button><button onclick="doCalc('2')" class="bg-zinc-800 p-4 rounded-xl">2</button><button onclick="doCalc('3')" class="bg-zinc-800 p-4 rounded-xl">3</button><button onclick="doCalc('-')" class="bg-orange-600 p-4 rounded-xl">-</button><button onclick="doCalc('0')" class="bg-zinc-800 p-4 rounded-xl">0</button><button onclick="doCalc('.')" class="bg-zinc-800 p-4 rounded-xl">.</button><button onclick="doCalc('=')" class="bg-green-600 p-4 rounded-xl">=</button><button onclick="doCalc('+')" class="bg-orange-600 p-4 rounded-xl">+</button><button onclick="doCalc('C')" class="col-span-4 bg-red-600 p-3 rounded-xl mt-2">Clear</button></div><div id="calcOut" class="mt-3 bg-zinc-900 p-3 rounded-xl text-xl"></div>`}
 }
-function goHome(){document.getElementById('content').classList.add('hidden');document.getElementById('home').classList.remove('hidden')}
-async function loadNews(type){
-let box=document.getElementById('newsBox'); if(!box) return;
-box.innerHTML=`<div class="text-center p-10"><div class="text-3xl">⏳</div><p class="text-zinc-400 mt-2 text-sm">Taza khabrein la raha hun...</p></div>`;
-let urls={pak:'https://api.rss2json.com/v1/api.json?rss_url='+encodeURIComponent('https://news.google.com/rss?hl=ur&gl=PK&ceid=PK:ur'),world:'https://api.rss2json.com/v1/api.json?rss_url='+encodeURIComponent('https://news.google.com/rss?hl=en-PK&gl=PK&ceid=PK:en'),ai:'https://api.rss2json.com/v1/api.json?rss_url='+encodeURIComponent('https://news.google.com/rss/search?q=AI&hl=en-PK&gl=PK&ceid=PK:en')};
-document.querySelectorAll('#btnPak,#btnWorld,#btnAI').forEach(b=>{if(b) b.className='flex-1 bg-zinc-800 p-2 rounded-full text-sm'});
-let active=type=='pak'?'btnPak':type=='world'?'btnWorld':'btnAI'; let btn=document.getElementById(active); if(btn) btn.className='flex-1 bg-green-600 p-2 rounded-full font-bold text-sm';
-try{let res=await fetch(urls[type]);let data=await res.json();if(data.items&&data.items.length>0){box.innerHTML='';data.items.slice(0,12).forEach(item=>{let d=new Date(item.pubDate).toLocaleTimeString('ur-PK',{hour:'2-digit',minute:'2-digit'});box.innerHTML+=`<div class="bg-zinc-900 p-3 rounded-2xl border border-zinc-800"><div class="flex justify-between gap-2"><h3 class="font-bold text-[13px] leading-5">${item.title}</h3><span class="text-[10px] bg-zinc-800 px-2 py-1 rounded-full shrink-0 h-fit">${d}</span></div><p class="text-[11px] text-zinc-400 mt-2">${item.description.replace(/<[^>]*>/g,'').slice(0,110)}...</p><a href="${item.link}" target="_blank" class="text-[11px] text-blue-400 mt-2 inline-block">Puri khabar →</a></div>`})}else{throw 'no news'}}catch(e){box.innerHTML=`<div class="bg-zinc-900 p-4 rounded-2xl border border-zinc-800 text-center"><p class="text-sm">⚠️ Internet slow hai, AI se pucho</p><button onclick="openPage('chat')" class="w-full mt-3 bg-purple-600 p-3 rounded-xl font-bold">AI Se Aaj Ki Khabrein Pucho</button></div>`}
+function goHome(){document.getElementById('content').classList.add('hidden');document.getElementById('home').classList.remove('hidden');}
+
+async function loadNews(){
+ let box=document.getElementById('newsBox'); if(!box) return; box.innerHTML=`<div class="text-center p-10">⏳<br>News load ho rahi hai...</div>`;
+ let rssJson=`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent('https://news.google.com/rss?hl=ur&gl=PK&ceid=PK:ur')}`;
+ document.querySelectorAll('#btnPak,#btnWorld,#btnAI').forEach(b=>{b.classList.remove('flex-1','bg-zinc-800','p-2','rounded-full');});
+ try{ let res=await fetch(rssJson); let data=await res.json(); let items=data.items; let html=''; if(!items||items.length==0) box.innerHTML='News nahi mili'; items.slice(0,20).forEach(n=>{ html+=`<div class="bg-zinc-900 p-3 rounded-xl border border-zinc-800"><a href="${n.link}" target="_blank" class="font-bold">${n.title}</a><p class="text-zinc-400 mt-2 text-sm">${n.description?.slice(0,120)}...</p></div>`}); box.innerHTML=html; }catch(e){box.innerHTML='News load nahi hui, Internet check karo';}
 }
-async function sendMsg(){let m=document.getElementById('msg').value; if(!m) return; let box=document.getElementById('chatBox'); box.innerHTML+=`<div class="self-end bg-purple-600 p-3 rounded-2xl max-w-[80%] text-sm">${m}</div>`; document.getElementById('msg').value=''; let id=Date.now(); box.innerHTML+=`<div id="${id}" class="bg-zinc-800 p-3 rounded-2xl max-w-[85%] text-sm">Soch raha hun...</div>`; box.scrollTop=box.scrollHeight; try{let res=await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({contents:[{parts:[{text:SYSTEM_PROMPT+" Sawal: "+m}]}]})}); let data=await res.json(); if(data.candidates){document.getElementById(id).innerText=data.candidates[0].content.parts[0].text}else{document.getElementById(id).innerText="Error: "+JSON.stringify(data).slice(0,300)}}catch(e){document.getElementById(id).innerText="Error: "+e.message} box.scrollTop=box.scrollHeight;}
-function makeQR(){let t=document.getElementById('qrInput').value; if(!t){alert('Kuch likho!');return;} document.getElementById('qrResult').innerHTML=`<img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(t)}" class="mx-auto rounded-xl mt-2 border-4 border-white"><p class="text-xs mt-2 text-zinc-400">${t}</p>`}
-function startVoice(){let SR=window.SpeechRecognition||window.webkitSpeechRecognition; if(!SR){alert('Browser support nahi karta');return;} let rec=new SR(); rec.lang='ur-PK'; rec.onresult=e=>{document.getElementById('voiceResult').innerText=e.results[0][0].transcript}; rec.start(); document.getElementById('voiceResult').innerText='Sun raha hun...bolo!'}
-function doCalc(){try{document.getElementById('calcOut').innerText='= '+eval(document.getElementById('calcIn').value)}catch{document.getElementById('calcOut').innerText='Ghalat formula'}}
-function openWA(){let n=document.getElementById('waNumber').value.replace(/[^0-9]/g,''); let m=document.getElementById('waMsg').value; if(!n){alert('Number likho! Example: 923001234567');return;} if(n.startsWith('0')){n='92'+n.substring(1);} window.open(`https://wa.me/${n}?text=${encodeURIComponent(m)}`,'_blank')}
-function makeCall(){let n=document.getElementById('waNumber').value.replace(/[^0-9]/g,''); if(!n){alert('Number likho!');return;} if(n.startsWith('92')){n='0'+n.substring(2);} window.open(`tel:${n}`,'_self')}
-</script></body></html>
+
+async function sendMsg(){
+ let m=document.getElementById('msg').value; if(!m) return; let box=document.getElementById('chatBox'); box.innerHTML+=`<div class="text-right mb-2"><span class="bg-blue-600 px-3 py-2 rounded-2xl inline-block">${m}</span></div>`; document.getElementById('msg').value=''; box.scrollTop=box.scrollHeight;
+ try{
+  // NAYI AQ KEY KE LIYE SAHI TAREEQA
+  let res=await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent', {
+    method: 'POST',
+    headers: { 'Content-Type':'application/json', 'x-goog-api-key': GEMINI_API_KEY },
+    body: JSON.stringify({ contents: [{ parts: [{ text: SYSTEM_PROMPT + " User: " + m }] }] })
+  });
+  let data=await res.json(); let reply=data.candidates?.[0]?.content?.parts?.[0]?.text || "Jawab nahi mila";
+  box.innerHTML+=`<div class="text-left mb-2"><span class="bg-zinc-800 px-3 py-2 rounded-2xl inline-block">${reply}</span></div>`;
+ }catch(e){ box.innerHTML+=`<div class="text-left mb-2"><span class="bg-red-900 px-3 py-2 rounded-2xl inline-block">Error: ${e.message}</span></div>`; }
+ box.scrollTop=box.scrollHeight;
+}
+function makeQR(){let t=document.getElementById('qrInput').value; if(!t){alert('Kuch likho');return;} document.getElementById('qrBox').innerHTML=`<img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(t)}" class="mx-auto rounded-xl">`;}
+function startVoice(){let SR=window.SpeechRecognition||window.webkitSpeechRecognition; if(!SR){alert('Browser support nahi karta');return;} let r=new SR(); r.lang='ur-PK'; r.onresult=(e)=>{document.getElementById('voiceText').innerText=e.results[0][0].transcript}; r.start();}
+function doCalc(v){try{if(v=='C'){document.getElementById('calcIn').value='';document.getElementById('calcOut').innerText='';}else if(v=='='){document.getElementById('calcOut').innerText='='+eval(document.getElementById('calcIn').value)}else{document.getElementById('calcIn').value+=v}}catch(e){document.getElementById('calcOut').innerText='Error'}}
+function openWA(){let n=document.getElementById('waNumber').value.replace(/[^0-9]/g,''); let m=document.getElementById('waNumber').value; let msg=document.getElementById('waMsg').value; if(!n){alert('Number likho!');return;} window.open(`https://wa.me/${n}?text=${encodeURIComponent(msg)}`,'_blank');}
+</script></body></html>l
