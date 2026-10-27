@@ -1,4 +1,4 @@
-OCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -8,6 +8,7 @@ OCTYPE html>
 <style>body{font-family:system-ui}</style>
 </head>
 <body class="bg-black text-white min-h-screen">
+
 <header class="bg-gradient-to-r from-purple-600 via-blue-600 to-green-500 p-4 text-center sticky top-0 z-10">
 <h1 class="text-2xl font-bold">FazalAI Super App</h1>
 <p class="text-xs opacity-80">Made by Fazal - AI + News + Tools</p>
@@ -16,54 +17,57 @@ OCTYPE html>
 <div class="bg-red-600 text-xs p-2 flex justify-between"><span>🔴 LIVE Taza Khabar</span><span id="time"></span></div>
 
 <div class="grid grid-cols-2 gap-3 p-3">
-<button onclick="document.getElementById('ai').scrollIntoView({behavior:'smooth'})" class="bg-zinc-900 p-4 rounded-2xl text-left">🤖<br><b>AI Chat</b><br><span class="text-xs opacity-50">Fazal AI se baat</span></button>
+<button onclick="document.getElementById('ai').scrollIntoView({behavior:'smooth'})" class="bg-zinc-900 p-4 rounded-2xl text-left">🤖<br><b>AI Chat</b><br><span class="text-xs opacity-50">Fazal AI se baat karo</span></button>
 <button class="bg-zinc-900 p-4 rounded-2xl text-left">📰<br><b>News</b><br><span class="text-xs opacity-50">Taza Khabrein</span></button>
 <button class="bg-zinc-900 p-4 rounded-2xl text-left border border-green-600">💬<br><b>WhatsApp</b><br><span class="text-xs opacity-50">Direct Msg</span></button>
-<button class="bg-zinc-900 p-4 rounded-2xl text-left">🔲<br><b>QR Maker</b><br><span class="text-xs opacity-50">QR Banao</span></button>
+<button class="bg-zinc-900 p-4 rounded-2xl text-left">🔳<br><b>QR Maker</b><br><span class="text-xs opacity-50">QR Banao</span></button>
 </div>
 
 <div id="ai" class="p-3 mt-2">
-<h2 class="font-bold text-lg mb-2">🤖 Fazal AI Chat - AQ Key Active ✅</h2>
+<h2 class="font-bold mb-2">🤖 Fazal AI Chat - Ready ✅</h2>
 <div id="chatBox" class="bg-zinc-900 h-80 overflow-y-auto p-3 rounded-xl mb-3 text-sm space-y-2"></div>
 <div class="flex gap-2">
 <input id="userInput" class="flex-1 p-3 rounded-xl bg-zinc-800 text-white outline-none" placeholder="Kuch bhi pucho...">
 <button onclick="askAI()" class="bg-blue-600 px-6 rounded-xl font-bold">Send</button>
 </div>
-<p class="text-[10px] opacity-40 mt-2">Key: AQ....PrYw is active</p>
 </div>
 
 <script>
-// AAPKI FINAL AQ KEY
-const GEMINI_API_KEY = "AQ.Ab8RN6I92LnpNjOQ1YPVlm-5J6Gte-APeuK1Oa0znxICDIbB9w";
+// YAHAN APNI NAYI KEY DALO - AQ wali
+const GEMINI_API_KEY = "AQ.Ab8RN6IffQIxkdXQxE1DlF90_XEVeDtS0c4zVpnilD7yzNzp6Q; 
 
 async function askAI(){
   let input = document.getElementById('userInput');
   let box = document.getElementById('chatBox');
   let q = input.value.trim();
   if(!q) return;
+  if(GEMINI_API_KEY === ""){ alert("Pehle Line 36 me apni API Key dalo!"); return; }
   box.innerHTML += `<div class="flex justify-end"><div class="bg-blue-600 p-2 rounded-lg max-w-[80%]">${q}</div></div>`;
   input.value = '';
   let id = Date.now();
   box.innerHTML += `<div id="${id}" class="opacity-60">AI soch raha hai...</div>`;
   box.scrollTop = box.scrollHeight;
   try{
-    let res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`,{
-      method:'POST',
-      headers: {'Content-Type':'application/json', 'x-goog-api-key': GEMINI_API_KEY},
-      body: JSON.stringify({contents:[{parts:[{text:q}]}]})
-    });
-    let data = await res.json();
-    document.getElementById(id)?.remove();
-    if(data.error){ throw new Error(data.error.message); }
-    let ans = data.candidates?.[0]?.content?.parts?.[0]?.text || "No response";
-    box.innerHTML += `<div class="flex justify-start"><div class="bg-zinc-800 p-3 rounded-lg max-w-[90%]">${ans.replace(/\n/g,'<br>')}</div></div>`;
+      let res = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent', {
+            method: 'POST',
+            headers: {
+              'Content-Type':'application/json',
+              'x-goog-api-key': GEMINI_API_KEY
+            },
+            body: JSON.stringify({contents:[{parts:[{text:q}]}]})
+      });
+      let data = await res.json();
+      document.getElementById(id)?.remove();
+      if(data.error){ throw new Error(data.error.message); }
+      let ans = data.candidates?.[0]?.content?.parts?.[0]?.text || "No response";
+      box.innerHTML += `<div class="flex justify-start"><div class="bg-zinc-800 p-3 rounded-lg max-w-[90%]">${ans.replace(/\n/g,'<br>')}</div></div>`;
   }catch(e){
-    document.getElementById(id)?.remove();
-    box.innerHTML += `<div class="bg-red-900/50 p-2 rounded text-red-300">Error: ${e.message}<br>Agar error aaye to key dubara check karo.</div>`;
+      document.getElementById(id)?.remove();
+      box.innerHTML += `<div class="bg-red-900/50 p-2 rounded text-red-300">Error: ${e.message}</div>`;
   }
   box.scrollTop = box.scrollHeight;
 }
-document.getElementById('userInput').addEventListener('keydown',e=>{ if(e.key==='Enter') askAI(); });
+document.getElementById('userInput').addEventListener('keydown', e=>{ if(e.key==='Enter') askAI(); });
 setInterval(()=>{ document.getElementById('time').innerText = new Date().toLocaleTimeString(); },1000);
 </script>
 </body>
