@@ -3,62 +3,53 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>FazalAI Super App</title>
+<title>FazalAI Super App - No Key Needed</title>
 <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-black text-white min-h-screen">
-<header class="bg-gradient-to-r from-purple-600 to-blue-600 p-4 text-center">
+<header class="bg-gradient-to-r from-purple-600 via-blue-600 to-green-500 p-4 text-center">
 <h1 class="text-2xl font-bold">FazalAI Super App</h1>
+<p class="text-xs">✅ No API Key - 100% Free</p>
 </header>
 
 <div class="p-4">
-<div id="chatBox" class="bg-zinc-900 h-96 overflow-y-auto p-3 rounded-xl mb-3 text-sm space-y-3"></div>
+<div id="chatBox" class="bg-zinc-900 h-96 overflow-y-auto p-3 rounded-xl mb-3 text-sm space-y-3">
+<div class="bg-zinc-800 p-3 rounded-lg">👋 Salam! Main Fazal AI hun. Bina key ke ready hun, kuch bhi pucho!</div>
+</div>
 <div class="flex gap-2">
-<input id="userInput" class="flex-1 p-3 rounded-xl bg-zinc-800 outline-none" placeholder="Explain how AI works in a few words">
-<button onclick="askAI()" class="bg-blue-600 px-6 rounded-xl font-bold">Send</button>
+<input id="userInput" class="flex-1 p-3 rounded-xl bg-zinc-800 outline-none" placeholder="Kuch bhi pucho...">
+<button onclick="askAI()" id="btn" class="bg-blue-600 px-6 rounded-xl font-bold">Send</button>
 </div>
 </div>
 
 <script>
-// YAHAN APNI KEY DALO - Khali chora hai
-const API_KEY = "AQ.Ab8RN6J96HwcvVuO73qPP1yJF3PwmFzp2v-9arPgOrBTq_t43g;
-
 async function askAI(){
   const input = document.getElementById('userInput');
   const box = document.getElementById('chatBox');
-  let q = input.value.trim() || "Explain how AI works in a few words";
-  if(API_KEY === ""){ alert("Pehle apni API Key dalo!"); return; }
+  const btn = document.getElementById('btn');
+  let q = input.value.trim();
+  if(!q) return;
 
-  box.innerHTML += `<div class="text-right"><div class="inline-block bg-blue-600 p-2 rounded-lg">${q}</div></div>`;
+  box.innerHTML += `<div class="text-right"><div class="inline-block bg-blue-600 p-2 px-3 rounded-lg max-w-[80%]">${q}</div></div>`;
   input.value = "";
-  let id = Date.now();
-  box.innerHTML += `<div id="${id}" class="opacity-50">AI soch raha hai...</div>`;
+  let id = "msg"+Date.now();
+  box.innerHTML += `<div id="${id}" class="text-left"><div class="inline-block bg-zinc-700 p-3 rounded-lg">AI soch raha hai...</div></div>`;
   box.scrollTop = box.scrollHeight;
+  btn.disabled = true;
 
   try{
-    // Aapka diya hua CURL code ka sahi fetch version
-    const res = await fetch("https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "X-goog-api-key": API_KEY
-      },
-      body: JSON.stringify({
-        contents: [{ parts: [{ text: q }] }]
-      })
+    // YE KEY KE BAGHAIR WALA FREE API HAI
+    const res = await fetch("https://text.pollinations.ai/" + encodeURIComponent(q), {
+      method: "GET"
     });
-
-    const data = await res.json();
+    const ans = await res.text();
     document.getElementById(id)?.remove();
-
-    if(data.error){ throw new Error(data.error.message); }
-
-    let ans = data.candidates?.[0]?.content?.parts?.[0]?.text || "No response";
-    box.innerHTML += `<div class="text-left"><div class="inline-block bg-zinc-800 p-3 rounded-lg whitespace-pre-wrap">${ans}</div></div>`;
+    box.innerHTML += `<div class="text-left"><div class="inline-block bg-zinc-800 p-3 rounded-lg max-w-[90%] whitespace-pre-wrap">${ans}</div></div>`;
   }catch(e){
     document.getElementById(id)?.remove();
-    box.innerHTML += `<div class="bg-red-900/50 p-2 rounded text-red-300">Error: ${e.message}</div>`;
+    box.innerHTML += `<div class="bg-red-900/50 p-2 rounded">Error: ${e.message}. Dubara try karo.</div>`;
   }
+  btn.disabled = false;
   box.scrollTop = box.scrollHeight;
 }
 document.getElementById('userInput').addEventListener('keydown', e=>{ if(e.key==='Enter') askAI(); });
